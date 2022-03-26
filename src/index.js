@@ -1,5 +1,5 @@
 import { render } from 'react-dom';
-import CalendarApp from './CalendarApp';
+import { AppRouter } from './router/AppRouter';
 
 const root = document.getElementById('root');
-render(<CalendarApp />, root);
+render(<AppRouter />, root);
