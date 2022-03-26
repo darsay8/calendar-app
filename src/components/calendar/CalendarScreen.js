@@ -1,5 +1,7 @@
+import Navbar from '../ui/Navbar';
+
 const CalendarScreen = () => {
-  return <div>CalendarScreen</div>;
+  return <Navbar />;
 };
 
 export default CalendarScreen;
