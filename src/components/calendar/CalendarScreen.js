@@ -1,11 +1,12 @@
+import { useState } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 
 import Navbar from '../ui/Navbar';
 import CalendarEvent from './CalendarEvent';
+import CalendarModal from './CalendarModal';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useState } from 'react';
 
 const localizer = momentLocalizer(moment);
 
@@ -26,18 +27,11 @@ const myEventsList = [
 const CalendarScreen = () => {
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
-  console.log('LAST VIEW', lastView);
+  const onDoubleClick = e => {};
 
-  const onDoubleClick = e => {
-    console.log('DOBLE:', e);
-  };
-
-  const onSelectEvent = e => {
-    console.log('SELECT:', e);
-  };
+  const onSelectEvent = e => {};
 
   const onViewChange = e => {
-    console.log('VIEW:', e);
     setLastView(e);
     localStorage.setItem('lastView', e);
   };
@@ -72,6 +66,7 @@ const CalendarScreen = () => {
           view={lastView}
         />
       </div>
+      <CalendarModal />
     </div>
   );
 };
