@@ -1,7 +1,8 @@
+import { AppRouter } from './router/AppRouter';
 import React from 'react';
 
 const CalendarApp = () => {
-  return <div>CalendarApp</div>;
+  return <AppRouter />;
 };
 
 export default CalendarApp;
