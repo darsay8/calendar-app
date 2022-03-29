@@ -9,14 +9,15 @@ import CalendarModal from './CalendarModal';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { uiOpenModal } from '../../redux/actions/ui';
-import { eventSetActive } from '../../redux/actions/events';
+import { eventClearActiveEvent, eventSetActive } from '../../redux/actions/events';
 import AddNewFab from './AddNewFab';
+import DeleteEventFab from './DeleteEventFab';
 
 const localizer = momentLocalizer(moment);
 
 const CalendarScreen = () => {
   const dispatch = useDispatch();
-  const { events } = useSelector(state => state.calendar);
+  const { events, activeEvent } = useSelector(state => state.calendar);
 
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
@@ -45,6 +46,10 @@ const CalendarScreen = () => {
     return { style };
   };
 
+  const onSelectSlot = e => {
+    dispatch(eventClearActiveEvent());
+  };
+
   return (
     <div className="calendar-screen">
       <Navbar />
@@ -60,10 +65,13 @@ const CalendarScreen = () => {
           onDoubleClickEvent={onDoubleClick}
           onSelectEvent={onSelectEvent}
           onView={onViewChange}
+          onSelectSlot={onSelectSlot}
+          selectable={true}
           view={lastView}
         />
       </div>
       <AddNewFab />
+      {activeEvent && <DeleteEventFab />}
       <CalendarModal />
     </div>
   );
