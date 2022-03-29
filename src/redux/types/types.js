@@ -1,4 +1,7 @@
 export const types = {
-  uiOpenModal: '[ui] Open Modal',
-  uiCloseModal: '[ui] Close Modal',
+  uiOpenModal: '[UI] Open Modal',
+  uiCloseModal: '[UI] Close Modal',
+
+  eventSetActive: '[Event] Set Active',
+  eventAddNew: '[Event] Add New',
 };

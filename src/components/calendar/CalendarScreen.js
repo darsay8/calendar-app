@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 
@@ -9,6 +9,8 @@ import CalendarModal from './CalendarModal';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { uiOpenModal } from '../../redux/actions/ui';
+import { eventSetActive } from '../../redux/actions/events';
+import AddNewFab from './AddNewFab';
 
 const localizer = momentLocalizer(moment);
 
@@ -35,7 +37,10 @@ const CalendarScreen = () => {
     dispatch(uiOpenModal());
   };
 
-  const onSelectEvent = e => {};
+  const onSelectEvent = e => {
+    dispatch(eventSetActive(e));
+    dispatch(uiOpenModal());
+  };
 
   const onViewChange = e => {
     setLastView(e);
@@ -72,6 +77,7 @@ const CalendarScreen = () => {
           view={lastView}
         />
       </div>
+      <AddNewFab />
       <CalendarModal />
     </div>
   );
