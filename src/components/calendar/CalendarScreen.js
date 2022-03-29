@@ -14,22 +14,9 @@ import AddNewFab from './AddNewFab';
 
 const localizer = momentLocalizer(moment);
 
-const myEventsList = [
-  {
-    title: 'Payday',
-    start: moment().toDate(),
-    end: moment().add(2, 'hours').toDate(),
-    bgcolor: 'fafafa',
-    notes: 'Get the money',
-    user: {
-      id: '123',
-      name: 'Username',
-    },
-  },
-];
-
 const CalendarScreen = () => {
   const dispatch = useDispatch();
+  const { events } = useSelector(state => state.calendar);
 
   const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'month');
 
@@ -39,7 +26,6 @@ const CalendarScreen = () => {
 
   const onSelectEvent = e => {
     dispatch(eventSetActive(e));
-    dispatch(uiOpenModal());
   };
 
   const onViewChange = e => {
@@ -66,7 +52,7 @@ const CalendarScreen = () => {
       <div className="container calendar">
         <Calendar
           localizer={localizer}
-          events={myEventsList}
+          events={events}
           startAccessor="start"
           endAccessor="end"
           eventPropGetter={eventStyleGetter}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
@@ -7,6 +7,7 @@ import moment from 'moment';
 import Swal from 'sweetalert2';
 
 import { uiCloseModal } from '../../redux/actions/ui';
+import { eventAddNew, eventClearActiveEvent } from '../../redux/actions/events';
 
 const customStyles = {
   content: {
@@ -24,21 +25,29 @@ Modal.setAppElement('#root');
 const now = moment().minutes(0).seconds(0).add(1, 'hours'); // 3:00:00
 const nowPlusOne = now.clone().add(1, 'hours');
 
+const initEvent = {
+  title: '',
+  notes: '',
+  start: now.toDate(),
+  end: nowPlusOne.toDate(),
+};
+
 const CalendarModal = () => {
   const dispatch = useDispatch();
+
   const { modalOpen } = useSelector(state => state.ui);
+  const { activeEvent } = useSelector(state => state.calendar);
 
   const [dateStart, setDateStart] = useState(now.toDate());
   const [dateEnd, setDateEnd] = useState(nowPlusOne.toDate());
-
   const [titleIsValid, setTitleIsValid] = useState(true);
+  const [formValues, setFormValues] = useState(initEvent);
 
-  const [formValues, setFormValues] = useState({
-    title: 'event',
-    notes: '',
-    start: now.toDate(),
-    end: nowPlusOne.toDate(),
-  });
+  useEffect(() => {
+    if (activeEvent) {
+      setFormValues(activeEvent);
+    }
+  }, [activeEvent]);
 
   const { title, notes, start, end } = formValues;
 
@@ -60,6 +69,17 @@ const CalendarModal = () => {
       return;
     }
 
+    dispatch(
+      eventAddNew({
+        ...formValues,
+        id: new Date().getTime,
+        user: {
+          id: '123',
+          name: 'Username',
+        },
+      }),
+    );
+
     if (title.trim().length < 2) {
       return setTitleIsValid(false);
     }
@@ -79,6 +99,8 @@ const CalendarModal = () => {
 
   const closeModal = () => {
     dispatch(uiCloseModal());
+    dispatch(eventClearActiveEvent());
+    setFormValues(initEvent);
   };
 
   return (
