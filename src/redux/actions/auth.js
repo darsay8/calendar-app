@@ -11,9 +11,7 @@ export const startLogin = (email, password) => async dispatch => {
     localStorage.setItem('token-init-date', new Date().getTime());
     dispatch(login({ uid: body.uid, name: body.name }));
   } else {
-    console.log(body.errors);
-    const error = body.errors ? Object.values(body.errors)[0].msg : body.msg;
-    Swal.fire('Error', error, 'error');
+    Swal.fire('Error', getErrors(body), 'error');
   }
 };
 
@@ -26,13 +24,33 @@ export const startRegister = (name, email, password) => async dispatch => {
     localStorage.setItem('token-init-date', new Date().getTime());
     dispatch(login({ uid: body.uid, name: body.name }));
   } else {
-    console.log(body.errors);
-    const error = body.errors ? Object.values(body.errors)[0].msg : body.msg;
-    Swal.fire('Error', error, 'error');
+    Swal.fire('Error', getErrors(body), 'error');
   }
 };
+
+export const startChecking = () => async dispatch => {
+  const res = await fetchWithToken('auth/validate');
+  const body = await res.json();
+
+  if (body.ok) {
+    localStorage.setItem('token', body.token);
+    localStorage.setItem('token-init-date', new Date().getTime());
+    dispatch(login({ uid: body.uid, name: body.name }));
+  } else {
+    // Swal.fire('Error', getErrors(body), 'error');
+    dispatch(checkingFinish());
+  }
+};
+
+const checkingFinish = () => ({
+  type: types.authCheckingFinish,
+});
 
 const login = user => ({
   type: types.authLogin,
   payload: user,
 });
+
+const getErrors = body => {
+  return body.errors ? Object.values(body.errors)[0].msg : body.msg;
+};
