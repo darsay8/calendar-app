@@ -1,6 +1,27 @@
+import { fetchWithToken } from '../../helpers/fetch';
 import { types } from '../types/types';
 
-export const eventAddNew = e => ({
+export const eventStartAddNew = event => async (dispatch, getState) => {
+  const { uid, name } = getState().auth;
+  try {
+    const res = await fetchWithToken('events/new', event, 'POST');
+    const body = await res.json();
+
+    if (body.ok) {
+      event.id = body.event.id;
+      event.user = {
+        _id: uid,
+        name: name,
+      };
+      console.log(event);
+      dispatch(eventAddNew(event));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const eventAddNew = e => ({
   type: types.eventAddNew,
   payload: e,
 });
