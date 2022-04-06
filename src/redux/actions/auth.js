@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import { fetchWithoutToken, fetchWithToken } from '../../helpers/fetch';
 import { types } from '../types/types';
+import { eventClear } from './events';
 
 export const startLogin = (email, password) => async dispatch => {
   const res = await fetchWithoutToken('auth', { email, password }, 'POST');
@@ -44,6 +45,7 @@ export const startChecking = () => async dispatch => {
 
 export const startLogout = () => dispatch => {
   localStorage.clear();
+  dispatch(eventClear());
   dispatch(logout());
 };
 

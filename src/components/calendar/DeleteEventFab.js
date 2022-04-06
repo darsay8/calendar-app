@@ -1,11 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { eventDeleted } from '../../redux/actions/events';
+import { eventStartDelete } from '../../redux/actions/events';
 
 const DeleteEventFab = () => {
   const dispatch = useDispatch();
 
   const handleClickDelete = () => {
-    dispatch(eventDeleted());
+    dispatch(eventStartDelete());
   };
   return (
     <button className="btn btn-danger fab-danger" onClick={handleClickDelete}>
