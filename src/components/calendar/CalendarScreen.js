@@ -14,8 +14,8 @@ import {
   eventSetActive,
   eventStartLoading,
 } from '../../redux/actions/events';
-import AddNewFab from './AddNewFab';
-import DeleteEventFab from './DeleteEventFab';
+import AddNewFab from '../ui/AddNewFab';
+import DeleteEventFab from '../ui/DeleteEventFab';
 
 const localizer = momentLocalizer(moment);
 
