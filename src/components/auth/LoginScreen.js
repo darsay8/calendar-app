@@ -25,6 +25,7 @@ const LoginScreen = () => {
 
   const handleLogin = e => {
     e.preventDefault();
+    // console.log(loginEmail, loginPassword);
     dispatch(startLogin(loginEmail, loginPassword));
   };
 
